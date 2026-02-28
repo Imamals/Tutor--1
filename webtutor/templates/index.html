@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}webtutor | Master Python Conceptually{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        height: calc(100vh - 70px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 0 2rem;
+        background: radial-gradient(circle at 50% 50%, rgba(0, 242, 255, 0.05) 0%, transparent 70%);
+    }
+
+    .hero-title {
+        font-size: 4.5rem;
+        line-height: 1;
+        margin-bottom: 2rem;
+        max-width: 900px;
+        letter-spacing: -0.04em;
+    }
+
+    .hero-subtitle {
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        max-width: 600px;
+        margin-bottom: 3.5rem;
+    }
+
+    .hero-cta {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .btn-lg {
+        padding: 1rem 2.5rem;
+        font-size: 1rem;
+        border-radius: 14px;
+    }
+
+    .accent-glow {
+        color: var(--accent);
+        text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .about-section {
+        padding: 10rem 2rem;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .philosophy-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 3rem;
+        margin-top: 5rem;
+    }
+
+    .philosophy-card {
+        padding: 3rem;
+        text-align: left;
+    }
+
+    .philosophy-card h3 {
+        color: var(--accent);
+        margin-bottom: 1.5rem;
+        font-size: 1.25rem;
+    }
+
+    .philosophy-card p {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: var(--text-muted);
+    }
+
+    .fade-up {
+        animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        opacity: 0;
+    }
+
+    @keyframes fadeUp {
+        from {
+            transform: translateY(30px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section id="hero" class="hero-section">
+    <h1 class="hero-title fade-up">Master Python <br> <span class="accent-glow">Logic</span>, not Syntax.</h1>
+    <p class="hero-subtitle fade-up" style="animation-delay: 0.1s;">
+        The interactive platform built for conceptual mastery. Build logic, master patterns, and progress when your code
+        truly works.
+    </p>
+    <div class="hero-cta fade-up" style="animation-delay: 0.2s;">
+        <a href="/quiz" class="btn btn-primary btn-lg">Begin Assessment</a>
+        <a href="#about" class="btn btn-secondary btn-lg">View Philosophy</a>
+    </div>
+</section>
+
+<section id="about" class="about-section">
+    <div class="fade-up" style="text-align: center;">
+        <p
+            style="text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; color: var(--accent); margin-bottom: 1rem;">
+            Our Philosophy</p>
+        <h2 style="font-size: 3.5rem; margin-bottom: 2rem; line-height: 1.1;">Logic First. Syntax Second.</h2>
+        <p style="max-width: 750px; margin: 0 auto; font-size: 1.15rem; color: var(--text-muted);">Most platforms fail
+            by penalizing a missing comma. We succeed by validating your thinking. Our AST-powered engine looks deep
+            into the structure of your code to verify your conceptual understanding.</p>
+    </div>
+
+    <div class="philosophy-grid">
+        <div class="glass philosophy-card fade-up" style="animation-delay: 0.1s;">
+            <h3>Conceptual Grading</h3>
+            <p>We don't just match strings. We parse your code into Abstract Syntax Trees to ensure you've used the
+                right logic, regardless of variable names.</p>
+        </div>
+        <div class="glass philosophy-card fade-up" style="animation-delay: 0.2s;">
+            <h3>Pattern Recognition</h3>
+            <p>Master the underlying patterns behind loops, conditions, and functions. Learn how Python thinks, not just
+                how it's typed.</p>
+        </div>
+        <div class="glass philosophy-card fade-up" style="animation-delay: 0.3s;">
+            <h3>Interactive Feedback</h3>
+            <p>Get real-time, logical feedback on your submissions. Our system guides you toward the solution by
+                pointing out missing conceptual nodes.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

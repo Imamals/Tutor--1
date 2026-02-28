@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}webtutor | Conceptual Assessment{% endblock %}
+
+{% block extra_css %}
+<style>
+    .quiz-layout {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+    }
+
+    .quiz-card {
+        width: 100%;
+        max-width: 600px;
+        padding: 4rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .quiz-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--accent), transparent);
+    }
+
+    .quiz-header {
+        margin-bottom: 3rem;
+    }
+
+    .quiz-header h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .quiz-options {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .option-btn {
+        width: 100%;
+        text-align: left;
+        justify-content: flex-start;
+        padding: 1.25rem 2rem;
+        font-size: 1rem;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border-glass);
+        color: var(--text-primary);
+        transition: var(--transition);
+        border-radius: 14px;
+        cursor: pointer;
+    }
+
+    .option-btn:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--accent);
+        transform: translateX(8px);
+    }
+
+    .option-btn.correct {
+        background: rgba(16, 185, 129, 0.1);
+        border-color: var(--success);
+        color: var(--success);
+    }
+
+    .option-btn.incorrect {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: var(--error);
+        color: var(--error);
+    }
+
+    #quiz-result {
+        margin-top: 3rem;
+        text-align: center;
+        animation: fadeUp 0.5s ease;
+    }
+
+    @keyframes fadeUp {
+        from {
+            transform: translateY(10px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="quiz-layout">
+    <div class="glass quiz-card">
+        <div class="quiz-header">
+            <p
+                style="text-transform: uppercase; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem;">
+                Assessment 01</p>
+            <h2>How do we define block-level logic?</h2>
+            <p>Select the correct Python keyword for function declaration.</p>
+        </div>
+
+        <div class="quiz-options">
+            <button class="option-btn" onclick="checkQuiz(this, false)">function</button>
+            <button class="option-btn" onclick="checkQuiz(this, true)">def</button>
+            <button class="option-btn" onclick="checkQuiz(this, false)">void</button>
+        </div>
+
+        <div id="quiz-result" style="display: none;">
+            <p style="color: var(--success); font-weight: 600; margin-bottom: 2rem;">Assessment Passed. Ready for Core
+                Modules.</p>
+            <a href="/editor/variables" class="btn btn-primary" style="width: 100%;">Initialize Workspace</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function checkQuiz(btn, isCorrect) {
+        const options = document.querySelectorAll('.option-btn');
+        options.forEach(opt => {
+            opt.disabled = true;
+            opt.style.opacity = '0.5';
+        });
+
+        btn.style.opacity = '1';
+        if (isCorrect) {
+            btn.classList.add('correct');
+            document.getElementById('quiz-result').style.display = 'block';
+        } else {
+            btn.classList.add('incorrect');
+            setTimeout(() => {
+                alert("Logic error detected. Optimization required. Try again.");
+                location.reload();
+            }, 800);
+        }
+    }
+</script>
+{% endblock %}

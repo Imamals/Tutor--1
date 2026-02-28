@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyLearn | Master Python Basics</title>
+    <meta name="description" content="A premium interactive platform to learn the fundamentals of Python programming.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Roboto+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav id="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <span class="py">Py</span><span class="learn">Learn</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#basics">The Basics</a></li>
+                <li><a href="#input">User Input</a></li>
+                <li><a href="#control">Control Flow</a></li>
+                <li><a href="#functions">Functions</a></li>
+                <li><a href="#quiz">Quiz</a></li>
+            </ul>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <header id="hero" class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1 class="fade-in">Master <span class="highlight">Python</span> from Scratch.</h1>
+                <p class="fade-in-delayed">Elegant, readable, and powerful. Start your coding journey with the most
+                    popular language in the world.</p>
+                <div class="hero-btns fade-in-delayed">
+                    <a href="#basics" class="btn btn-primary">Start Learning</a>
+                    <a href="#quiz" class="btn btn-secondary">Take a Quiz</a>
+                </div>
+            </div>
+            <div class="hero-visual fade-in">
+                <div class="code-card glass">
+                    <div class="code-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <pre><code><span class="keyword">print</span>(<span class="string">"Hello, Future Coder!"</span>)
+<span class="keyword">name</span> = <span class="string">"Python"</span>
+<span class="keyword">print</span>(<span class="string">f"Welcome to {name}!"</span>)</code></pre>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="basics" class="section">
+            <div class="container">
+                <h2 class="section-title">01. The Basics</h2>
+                <div class="grid">
+                    <div class="card glass">
+                        <h3>Variables & Types</h3>
+                        <p>Think of variables as containers for storing data. In Python, you don't need to declare types
+                            explicitly.</p>
+                        <div class="interactive-snippet">
+                            <pre><code contenteditable="true" spellcheck="false">x = <span class="number">10</span>
+msg = <span class="string">"I love Python"</span>
+is_fun = <span class="keyword">True</span></code></pre>
+                            <button class="run-btn" onclick="simulateRun('Variables defined!', this)">Run Code</button>
+                            <div class="output"></div>
+                        </div>
+                    </div>
+                    <div class="card glass">
+                        <h3>Lists</h3>
+                        <p>Lists are used to store multiple items in a single variable. They are ordered and changeable.
+                        </p>
+                        <div class="interactive-snippet">
+                            <pre><code contenteditable="true" spellcheck="false">fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>]
+fruits.append(<span class="string">"orange"</span>)
+<span class="keyword">print</span>(fruits)</code></pre>
+                            <button class="run-btn"
+                                onclick="simulateRun('[\'apple\', \'banana\', \'orange\']', this)">Run Code</button>
+                            <div class="output"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        </section>
+
+        <section id="input" class="section">
+            <div class="container">
+                <h2 class="section-title">02. User Input</h2>
+                <div class="card glass">
+                    <h3>The input() Function</h3>
+                    <p>To interact with the user, we use the <code>input()</code> function. It pauses the program and
+                        waits for the user to type something.</p>
+                    <div class="interactive-snippet">
+                        <pre><code contenteditable="true" spellcheck="false">name = <span class="keyword">input</span>(<span class="string">"What is your name? "</span>)
+<span class="keyword">print</span>(<span class="string">f"Hello, {name}!"</span>)</code></pre>
+                        <button class="run-btn" onclick="runInputSnippet(this)">Run & Type</button>
+                        <div class="input-field-container" style="display: none; margin-top: 10px;">
+                            <input type="text" class="terminal-input" placeholder="Type here and press Enter...">
+                        </div>
+                        <div class="output"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="control" class="section bg-alt">
+            <div class="container">
+                <h2 class="section-title">02. Control Flow</h2>
+                <div class="card glass wide-card">
+                    <h3>Making Decisions</h3>
+                    <p>Python uses <code>if</code>, <code>elif</code>, and <code>else</code> for logical conditions.</p>
+                    <div class="interactive-snippet">
+                        <pre><code contenteditable="true" spellcheck="false">age = <span class="number">18</span>
+<span class="keyword">if</span> age >= <span class="number">18</span>:
+    <span class="keyword">print</span>(<span class="string">"You are an adult"</span>)
+<span class="keyword">else</span>:
+    <span class="keyword">print</span>(<span class="string">"You are a minor"</span>)</code></pre>
+                        <button class="run-btn" onclick="simulateRun('You are an adult', this)">Run Code</button>
+                        <div class="output"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="functions" class="section">
+            <div class="container">
+                <h2 class="section-title">03. Functions</h2>
+                <div class="card glass">
+                    <h3>Reusable Blocks</h3>
+                    <p>A function is a block of code which only runs when it is called.</p>
+                    <div class="interactive-snippet">
+                        <pre><code contenteditable="true" spellcheck="false"><span class="keyword">def</span> <span class="func">greet</span>(name):
+    <span class="keyword">return</span> <span class="string">f"Hello, {name}!"</span>
+
+<span class="keyword">print</span>(greet(<span class="string">"Alice"</span>))</code></pre>
+                        <button class="run-btn" onclick="simulateRun('Hello, Alice!', this)">Run Code</button>
+                        <div class="output"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz" class="section bg-gradient">
+            <div class="container">
+                <h2 class="section-title">Quick Quiz</h2>
+                <div class="quiz-container card glass">
+                    <div id="quiz-question">
+                        <h3>What is the correct way to create a function in Python?</h3>
+                        <div class="quiz-options">
+                            <button class="option" onclick="checkAnswer(false, this)">function myFunc():</button>
+                            <button class="option" onclick="checkAnswer(true, this)">def myFunc():</button>
+                            <button class="option" onclick="checkAnswer(false, this)">void myFunc():</button>
+                            <button class="option" onclick="checkAnswer(false, this)">new Function():</button>
+                        </div>
+                        <div id="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 PyLearn Tutoring. Built with <span class="heart">&hearts;</span> for Pythonistas.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

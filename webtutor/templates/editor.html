@@ -1,0 +1,336 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .editor-container {
+        display: grid;
+        grid-template-columns: 40% 60%;
+        height: 100%;
+        width: 100%;
+    }
+
+    .lesson-panel {
+        padding: 3.5rem 2.5rem;
+        overflow-y: auto;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .lesson-header h1 {
+        font-size: 2.5rem;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+    }
+
+    .lesson-content {
+        font-size: 1.05rem;
+        color: var(--text-muted);
+    }
+
+    .goal-card {
+        margin-top: auto;
+        padding: 2rem;
+        background: var(--bg-glass);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border-glass);
+        border-radius: 20px;
+    }
+
+    .goal-card h3 {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: var(--accent);
+        margin-bottom: 1rem;
+    }
+
+    .goal-card p {
+        font-weight: 500;
+    }
+
+    .interaction-panel {
+        display: grid;
+        grid-template-rows: 65% 35%;
+        border-left: 1px solid var(--border-glass);
+    }
+
+    .editor-section {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        background: #0d1117;
+    }
+
+    .CodeMirror {
+        flex: 1;
+        height: auto;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 16px;
+        background: transparent !important;
+        padding: 1.5rem;
+    }
+
+    .CodeMirror-gutters {
+        background: transparent !important;
+        border: none !important;
+    }
+
+    .console-section {
+        background: var(--bg-deep);
+        border-top: 1px solid var(--border-glass);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .console-header {
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border-glass);
+    }
+
+    .console-label {
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .console-label::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        background: var(--text-muted);
+        border-radius: 50%;
+    }
+
+    #run-status {
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--accent);
+    }
+
+    .output-panel {
+        flex: 1;
+        padding: 1.5rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        overflow-y: auto;
+        white-space: pre-wrap;
+    }
+
+    .status-msg {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        z-index: 10;
+        padding: 1.25rem 2rem;
+        border-radius: 12px;
+        font-weight: 600;
+        display: none;
+        animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        max-width: 400px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes slideInUp {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .status-success {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--success);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        backdrop-filter: blur(10px);
+    }
+
+    .status-error {
+        background: rgba(239, 68, 68, 0.1);
+        color: var(--error);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        backdrop-filter: blur(10px);
+    }
+
+    .btn-run {
+        background: var(--accent);
+        color: var(--bg-deep);
+        padding: 0.6rem 1.5rem;
+        font-size: 0.85rem;
+        box-shadow: 0 4px 15px rgba(0, 242, 255, 0.2);
+    }
+
+    .btn-run:hover {
+        box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    /* Simply Lovely Easter Egg */
+    @keyframes simply-lovely-pop {
+        0% {
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+        }
+
+        50% {
+            transform: translate(-50%, -50%) scale(1.2);
+            opacity: 1;
+        }
+
+        70% {
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+
+        100% {
+            transform: translate(-50%, -50%) scale(1);
+        }
+    }
+
+    @keyframes shimmer {
+        0% {
+            background-position: -200% center;
+        }
+
+        100% {
+            background-position: 200% center;
+        }
+    }
+
+    .simply-lovely {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+        font-size: 5rem;
+        font-weight: 900;
+        font-style: italic;
+        text-align: center;
+        pointer-events: none;
+        animation: simply-lovely-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        background: linear-gradient(90deg, #00f2ff, #ffd700, #00f2ff);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 30px rgba(0, 242, 255, 0.5);
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+    }
+
+    .simply-lovely-shimmer {
+        animation: simply-lovely-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+            shimmer 2s linear infinite;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="editor-container">
+    <div class="lesson-panel">
+        <div class="lesson-header">
+            <h1>{{ lesson.title }}</h1>
+            <div class="lesson-content">
+                <p>{{ lesson.content }}</p>
+            </div>
+        </div>
+        <div class="goal-card">
+            <h3>Conceptual Goal</h3>
+            <p>{{ lesson.instructions }}</p>
+            <div id="next-lesson" style="display: none; margin-top: 1.5rem;">
+                <a href="#" class="btn btn-primary" style="width: 100%;">Continue to Next Module</a>
+            </div>
+        </div>
+    </div>
+    <div class="interaction-panel">
+        <div class="editor-section">
+            <div id="status-display" class="status-msg"></div>
+            <textarea id="editor-textarea"></textarea>
+        </div>
+        <div class="console-section">
+            <div class="console-header">
+                <div class="console-label">Python 3.x System</div>
+                <div style="display: flex; align-items: center; gap: 1.5rem;">
+                    <span id="run-status"></span>
+                    <button class="btn btn-run" onclick="runCode()">Run Logic</button>
+                </div>
+            </div>
+            <div id="output-display" class="output-panel">> System ready...</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const editor = CodeMirror.fromTextArea(document.getElementById("editor-textarea"), {
+        mode: "python",
+        theme: "dracula",
+        lineNumbers: true,
+        autoCloseBrackets: true,
+        indentUnit: 4,
+        viewportMargin: Infinity
+    });
+
+    editor.setValue("# Write your Python logic here\n# Focus on the concept, not the syntax\n\n");
+
+    async function runCode() {
+        const code = editor.getValue();
+        const runStatus = document.getElementById('run-status');
+        const outputDisplay = document.getElementById('output-display');
+        const statusDisplay = document.getElementById('status-display');
+
+        runStatus.textContent = "Processing...";
+        outputDisplay.textContent = "> Analyzing conceptual requirements...\n> Executing logic nodes...";
+
+        try {
+            const response = await fetch('/execute', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    lesson_id: '{{ lesson_id }}',
+                    code: code
+                })
+            });
+
+            const result = await response.json();
+            outputDisplay.innerHTML = `<span style="color: var(--text-muted)">> </span>` + (result.output ? result.output.replace(/\n/g, '<br>') : result.message);
+
+            statusDisplay.style.display = 'block';
+            statusDisplay.textContent = result.message;
+            statusDisplay.className = 'status-msg ' + (result.success ? 'status-success' : 'status-error');
+
+            if (result.success) {
+                // Trigger Simply Lovely Easter Egg
+                const egg = document.createElement('div');
+                egg.className = 'simply-lovely simply-lovely-shimmer';
+                egg.textContent = 'SIMPLY LOVELY!';
+                document.body.appendChild(egg);
+                setTimeout(() => egg.remove(), 2000);
+
+                document.getElementById('next-lesson').style.display = 'block';
+                document.querySelector('.goal-card').style.borderColor = 'var(--success)';
+                document.querySelector('.goal-card').style.boxShadow = '0 0 30px rgba(16, 185, 129, 0.1)';
+            } else {
+                document.querySelector('.goal-card').style.borderColor = 'var(--border-glass)';
+                document.querySelector('.goal-card').style.boxShadow = 'none';
+            }
+        } catch (err) {
+            outputDisplay.textContent = "> NETWORK ERROR: " + err.message;
+        } finally {
+            runStatus.textContent = "";
+        }
+    }
+</script>
+{% endblock %}
